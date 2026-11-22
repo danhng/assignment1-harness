@@ -45,14 +45,47 @@ def run_priority(email: Email, lm: LMCallable) -> dict:
     logger.info(reply)
     return check_contract(reply)
 
-# urgent
-test : Email = {"id": "em-04260", "thread_id": "th-03329", "reply_to": None, "to": ["suzanne.adams@enron.com"], "date": "2001-06-07T14:33:00Z", "subject": "David Marshall", "body": "Could you PLEASE PLEASE call David Marshall and get his email?  I'm on \nendless conference calls and need to contact him about a matter.\n\nThanks,\n\nKay\n\nPS, not a vacation day"}
 
 # test
+test : Email = {"id": "em-04260", "thread_id": "th-03329", "reply_to": None, "to": ["suzanne.adams@enron.com"], "date": "2001-06-07T14:33:00Z", "subject": "David Marshall", "body": "Could you PLEASE PLEASE call David Marshall and get his email?  I'm on \nendless conference calls and need to contact him about a matter.\n\nThanks,\n\nKay\n\nPS, not a vacation day"}
 test : Email = {"id": "em-04324", "thread_id": "th-03352", "reply_to": "em-04298", "to": ["limor.nissan@enron.com"], "date": "2001-06-07T15:19:00Z", "subject": "Re: Enron Canada isda with Transalta", "body": "One note.  We are currently negotiating some credit amendments to this=20\nagreement.\n\n\n\n=09Limor Nissan/ENRON@enronXgate\n=0906/07/2001 03:02 PM\n=09=09=20\n=09=09 To: Tana Jones/HOU/ECT@ECT\n=09=09 cc:=20\n=09=09 Subject: Enron Canada isda with Transalta\n\nHi Tana,\n\nThe executed ISDA list says that we=01,ve got one b/t Enron Canada and=20\nTransalta.  Can you send me a copy of the docs faxed today??\n\nThanks a lot,\n\nLimor\n\nEnron Global Markets\n520 Madison Avenue\nNew York, NY 10022\nTel: 212.715.5283\nFax: 212.715.5608\nE-Mail: Limor.Nissan@Enron.com\n\n"}
 test : Email = {"id": "em-04298", "thread_id": "th-03352", "reply_to": None, "from": "limor.nissan@enron.com", "to": ["tana.jones@enron.com"], "date": "2001-06-07T15:02:00Z", "subject": "Enron Canada isda with Transalta", "body": "Hi Tana,\n\nThe executed ISDA list says that we=01,ve got one b/t Enron Canada and=20\nTransalta.  Can I get a copy of the docs faxed to me asap??\n\nThanks a lot,\n\nLimor\n\nEnron Global Markets\n520 Madison Avenue\nNew York, NY 10022\nTel: 212.715.5283\nFax: 212.715.5608\nE-Mail: Limor.Nissan@Enron.com"}
 
-run_priority(test, lm)
+# run_priority(test, lm)
+
+def run_daily_digest(emails: list[Email], lm: LMCallable) -> str:
+    """Problem (daily_digest).
+
+    ``emails`` is a list of emails from one calendar day (UTC date); it may
+    be empty. Return the morning summary as a string.
+
+    Rules the tests check:
+    * Returns a string for every model reply, and for an empty day.
+    * The function does not modify ``emails``.
+    * Live (tests/fixtures/digest_days.json): the digest is not empty and
+      at most 300 words (``len(digest.split())``) as the model wrote it; for
+      each gold urgent email it contains the name of the company, project or
+      site that email is about; it contains no term listed for the gold
+      ignore emails.
+    """
+    
+    """
+    Output: 
+    - Received how many emails? each cat how many? 
+    - Urgent: list out every urgent email, each urgent email must include: copmpany, project or site. 
+    - Normal: briefly describe the topic of the emails. 
+    - Unknown: briefly describe the topic of the emails. 
+    """
+    
+    
+    """Solution
+    1. Sort emails by category into queues, each queues rank the email time sent (earlier first) (priority queues)
+    2. Write urgent summary (one by one or all in one call?)
+    3. Write normal summary (if still word allowance left, all in one LLM call)
+    4. Write unknown summary (if still word allowance left, all in one LLM call)
+    """
+    raise NotImplementedError
+
 
 
 
