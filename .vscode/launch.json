@@ -11,6 +11,17 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": false
+        }, 
+        {
+            "name": "pytest: live priority",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": ["-s","-m", "live", "tests/test_priority.py::test_live_accuracy"],
+            "envFile": "${workspaceFolder}/.env",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
     ]
 }

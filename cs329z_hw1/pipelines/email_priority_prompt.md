@@ -68,3 +68,18 @@ Examples:
   `urgent` if it states a deadline within two working days.
 - A short personal or social message from someone the recipient knows is
   `normal`, not `ignore`.
+
+## Reply format
+
+Reply with a single JSON object and nothing else: no text before or after
+it, and no Markdown code fences.
+
+The object has exactly two keys:
+
+- "category": one of "urgent", "normal", "ignore", written in lower case
+  exactly as shown here.
+- "reason": explain the choice.
+
+Example of a complete, correct reply:
+
+{"category": "urgent", "reason": "The email has deadline within 2 days with call for action of the recipient"}
