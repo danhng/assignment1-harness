@@ -81,7 +81,7 @@ def run_daily_digest(emails: list[Email], lm: LMCallable) -> str:
       site that email is about; it contains no term listed for the gold
       ignore emails.
     """
-    raise NotImplementedError
+    return email_pipelines.run_daily_digest(emails, lm)
 
 
 def run_bm25_build(docs: list[str]) -> Any:
