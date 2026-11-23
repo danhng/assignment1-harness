@@ -102,4 +102,5 @@ def run_daily_digest(emails: list[Email], lm: LMCallable) -> str:
     emails_normal_summary = _lm_simple(prompt_summary_normal_new, json.dumps(emails_normal), lm)
     template = str.replace(template, "<normal_emails_summary>", emails_normal_summary)
     
+    print(template)
     return template
