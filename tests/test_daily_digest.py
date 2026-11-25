@@ -101,6 +101,7 @@ def live_digests(archive, lm) -> list[tuple[dict, str]]:
 
         with ThreadPoolExecutor(max_workers=5) as pool:
             _digests["days"] = list(zip(days, pool.map(run, days)))
+    print(_digests["days"])
     return _digests["days"]
 
 

@@ -1,0 +1,8 @@
+Summary of <date>
+Total email: <total_email>
+
+Summary of urgent emails: 
+<urgent_emails_summary>
+
+Summary of other emails: 
+<normal_emails_summary>
