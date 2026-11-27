@@ -19,11 +19,10 @@ if __name__ == '__main__':
     # run_daily_digest([normal_email, urgent_email], lm)
     
     bm25_index = BM25_Index(tokenize)
-    docs_test = ["I love you", "IIII I Hello good morning have a good day you too", "I love you 3000 forevert"]
+    docs_test = ["", "apple", "   ", "apple apple"]
     bm25_index.add_doc(docs_test)
-    
-    query = "I love"
-    logger.info(bm25_index.search(query, 3))
+    query = "apple"
+    logger.info(bm25_index.search(query, 10))
     
     
     

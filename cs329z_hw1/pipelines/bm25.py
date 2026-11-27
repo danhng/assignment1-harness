@@ -28,7 +28,7 @@ class BM25_Index():
             start_id +=1 # update doc id
         
         # Step 3. update avg_doc_length
-        self.avg_doc_length = int(sum(self.docs_length) / len(self.docs_length))
+        self.avg_doc_length = math.ceil(sum(self.docs_length) / len(self.docs_length))
         return self
     
     # calculate the idf of a certain token
@@ -40,6 +40,8 @@ class BM25_Index():
     
     # calculate the tf of the token to a doc. 
     def _tf(self, token, doc_id): 
+        if self.avg_doc_length == 0:
+          return 0
         idf_score = self._idf_lucence(token)
         f_t_f = self.tf_index.get(token, {}).get(doc_id, 0)
         doc_len_norm = 1-self.b+self.b*self.docs_length[doc_id]/self.avg_doc_length
@@ -47,16 +49,21 @@ class BM25_Index():
         return idf_score * t_f_score
     
     # calculate the bm25 score of the full query
-    def _tf_query(self, query: str, doc_id): 
-        query_tokens = self.tokenizer(query)
+    def _tf_query(self, tokens, doc_id): 
         checked_tokens = set()
         bm25_score = 0 
-        for token in query_tokens: 
+        for token in tokens: 
             if token not in checked_tokens: 
                 bm25_score += self._tf(token, doc_id)
                 checked_tokens.add(token)
         return bm25_score
     
+    def _get_relevant_docs(self, tokens): 
+        docs = set()
+        for token in tokens: 
+          docs.update(set(self.tf_index.get(token, {})))
+        return docs
+      
     def search(self, query: str, k: int) -> list[tuple[int, float]]:
         """Problem (bm25).
 
@@ -76,11 +83,12 @@ class BM25_Index():
         3 of 200,000 documents.
         """
         score_dict = dict()
-        for doc_i in range(len(self.docs_length)): 
-            doc_i_score = self._tf_query(query, doc_id=doc_i)
+        tokens = self.tokenizer(query)
+        for doc_i in self._get_relevant_docs(tokens): 
+            doc_i_score = self._tf_query(tokens, doc_id=doc_i)
             if doc_i_score != 0: 
                 score_dict[doc_i] = doc_i_score
-        top_k = heapq.nlargest(k, score_dict.items(), key=lambda score_dict: score_dict[1])
+        top_k = heapq.nlargest(k, score_dict.items(), key=lambda score_dict: (score_dict[1], -1 * score_dict[0]))
         return top_k
         
     
